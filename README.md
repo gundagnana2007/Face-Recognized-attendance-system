@@ -1,7 +1,7 @@
-<html>
+ <html>
 <p>SmartAttend is a contactless, automated attendance management solution that leverages Computer Vision and Deep Learning to streamline identity verification. By utilizing a Convolutional Neural Network (CNN) architecture, the system recognizes registered faces in real-time and logs attendance data into an automated database, eliminating manual roll calls and proxy attendance.</P>
 <hr>
-<h1> 🚀 Key Features <h1>
+<h1>🚀 Key Features<h1>
 
 Real-Time Detection: Instant face localization and recognition using live webcam feeds.<br>
 
