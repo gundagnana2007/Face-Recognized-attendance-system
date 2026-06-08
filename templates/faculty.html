@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty Management | Vibrant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0f0c29; background: linear-gradient(to right, #24243e, #302b63, #0f0c29); color: white; }
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+        .btn-gradient-orange { background: linear-gradient(to right, #f83600 0%, #f9d423 100%); border: none; color: white; }
+        .btn-gradient-blue { background: linear-gradient(to right, #00c6ff, #0072ff); border: none; color: white; }
+        .btn-gradient-purple { background: linear-gradient(to right, #8e2de2, #4a00e0); border: none; color: white; }
+        .form-control, .form-select { background: rgba(255,255,255,0.9); border-radius: 10px; }
+        label { font-weight: bold; margin-bottom: 8px; color: #00c6ff; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="fw-bold">Faculty Control Panel</h1>
+        <a href="/" class="btn btn-outline-info rounded-pill">View Dashboard</a>
+    </div>
+
+    <div class="section-card mb-4 border-start border-danger border-5">
+        <h2 class="text-danger mb-4">📅 Session Setup</h2>
+        <form action="/faculty" method="POST">
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <label>Select Date</label>
+                    <input type="date" name="date" class="form-control" value="{{ today }}" id="datePicker">
+                </div>
+                <div class="col-md-4">
+                    <label>Select Period</label>
+                    <select name="period" class="form-select" id="periodSelect">
+                        <option value="P1">P1: Morning Session (Lab)</option>
+                        <option value="P2">P2: Late Morning</option>
+                        <option value="P3">P3: Afternoon 1</option>
+                        <option value="P4">P4: Afternoon 2</option>
+                        <option value="P5">P5: Evening</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <button type="submit" name="mark_holiday" class="btn btn-gradient-orange w-100 fw-bold py-2">Set as Holiday</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="section-card h-100 border-start border-info border-5">
+                <h3 class="text-info mb-4">📸 AI Face Scan</h3>
+                <form action="/faculty" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="date" id="aiDate">
+                    <input type="hidden" name="period" id="aiPeriod">
+                    <div class="mb-4">
+                        <input type="file" name="file" class="form-control p-3">
+                    </div>
+                    <button type="submit" class="btn btn-gradient-blue w-100 py-3 fw-bold">RUN AI RECOGNITION</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="section-card h-100 border-start border-success border-5">
+                <h3 class="text-success mb-4">✍️ Manual Entry</h3>
+                <form action="/faculty" method="POST">
+                    <input type="hidden" name="date" id="manDate">
+                    <input type="hidden" name="period" id="manPeriod">
+                    <div class="mb-4">
+                        <select name="manual_name" class="form-select p-3">
+                            {% for name in names %}
+                            <option value="{{ name }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-gradient-purple w-100 py-3 fw-bold">MARK PRESENT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sync hidden fields with the selectors
+    const dateInput = document.getElementById('datePicker');
+    const periodInput = document.getElementById('periodSelect');
+    
+    function sync() {
+        document.getElementById('aiDate').value = dateInput.value;
+        document.getElementById('manDate').value = dateInput.value;
+        document.getElementById('aiPeriod').value = periodInput.value;
+        document.getElementById('manPeriod').value = periodInput.value;
+    }
+
+    dateInput.addEventListener('change', sync);
+    periodInput.addEventListener('change', sync);
+    window.onload = sync;
+</script>
+</body>
+</html>
